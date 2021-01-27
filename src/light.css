@@ -1,7 +1,8 @@
 :root {
-  --text: var(--charcoal-14);
-  --text-secondary: var(--charcoal-14);
-  --background: var(--sea-1-1);
+  --text: var(--charcoal-8);
+  --text-display: var(--charcoal-14);
+  --text-secondary: var(--charcoal-4);
+  --background: var(--sea-1);
   --elevated: var(--sea-1);
   --sunken: var(--sea-1-2);
   --drop: var(--sea-1-4);
@@ -16,7 +17,7 @@
   --accent-drop: var(--sun-2);
   --accent-inset: var(--sea-1-1);
   --on-accent: var(--sea-12);
-  --link: var(--sky-4-5);
+  --link: var(--sky-8);
   --visited: var(--violet-7);
   --active: var(--blood-6);
   --focus: var(--sun-1-2);
@@ -44,7 +45,8 @@
   --nav-background: var(--sea-10);
   --nav-text: var(--sea-1-2);
   --footer-background: var(--sea-1-2);
-  --container-border: var(--sea-1-2);
+  --elevated-secondary: var(--sea-1-2);
+  --separator-secondary: var(--sea-1-2);
   /*   --text: var(--black);
   --text-secondary: var(--gray-7);
   --background: var(--gray-1);
