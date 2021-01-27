@@ -1,6 +1,6 @@
 :root {
-  --text: var(--sea-1);
-  --text-secondary: var(--sea-10);
+  --text: var(--charcoal-1-04);
+  --text-secondary: var(--charcoal-1-04);
   --background: var(--sea-14);
   --elevated: var(--sea-12);
   --sunken: var(--sea-16);
