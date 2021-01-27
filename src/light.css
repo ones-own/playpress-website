@@ -1,12 +1,12 @@
 :root {
-  /*--text: var(--sea-10);
+  --text: var(--sea-10);
   --text-secondary: var(--sea-10);
   --background: var(--sea-1-1);
   --elevated: var(--sea-1);
   --sunken: var(--sea-1-2);
-  --drop: var(--sea-2);
+  --drop: var(--sea-1-4);
   --inset: var(--sea-1);
-  --separator: var(--sea-3);
+  --separator: var(--sea-1-4);
   --separator-on-elevated: var(--sea-2);
   --input: var(--sea-3);
   --input-icon: var(--sea-5);
@@ -37,8 +37,15 @@
   --toggle-thumb-background: var(--sea-2);
   --toggle-thumb-drop: var(--sea-3);
   --toggle-thumb-inset: var(--sea-1-1);
-  --element-library-background: var(--sea-1-1);*/
-  --text: var(--black);
+  --element-library-background: var(--sea-1-1);
+  --logo: var(--sea-10);
+  --logo-secondary: var(--sea-1-1);
+  --header-background: var(--sun-1-5);
+  --nav-background: var(--sea-10);
+  --nav-text: var(--sea-1-2);
+  --footer-background: var(--sea-1-2);
+  --container-border: var(--sea-1-2);
+  /*   --text: var(--black);
   --text-secondary: var(--gray-7);
   --background: var(--gray-1);
   --elevated: var(--white);
@@ -78,5 +85,5 @@
   --toggle-thumb-inset: var(--gray-4);
   --element-library-background: var(--white);
   --logo: var(--gray-8);
-  --logo-secondary: var(--white);
+  --logo-secondary: var(--white); */
 }
