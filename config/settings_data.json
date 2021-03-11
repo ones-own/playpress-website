@@ -1,0 +1,21 @@
+{
+  "current": {
+    "type_header_font": "helvetica_n7",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "align_logo": "left",
+          "logo": "shopify:\/\/shop_images\/PP_Logo_1.3R_HR-01_512_v2.png",
+          "logo_max_width": 150,
+          "main_linklist": "main-menu",
+          "message": true,
+          "home_page_only": true,
+          "message_text": "Delivery times affected by COVID & Brexit",
+          "color_bg": "#3a3a3a",
+          "color_text": "#ffffff"
+        }
+      }
+    }
+  }
+}

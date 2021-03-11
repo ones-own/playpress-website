@@ -1,0 +1,149 @@
+<style>
+ .visually-hidden, .shopify-payment-button {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+  }
+</style>
+
+<main is="product">
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  {%- assign compare_at_price = current_variant.compare_at_price -%}
+  {%- assign price = current_variant.price -%}
+
+  {%- assign featured_image = product.featured_image -%}
+  <img src="{{ featured_image | img_url: '800x'}}" alt="{{ featured_image.alt | escape }}">
+
+        <h1 class="visually-hidden">{{ product.title }}</h1>
+
+        {% form 'product', product, class:form_classes, novalidate: 'novalidate', data-product-form: '' %}
+
+        <fieldset>
+          <legend>{{ product.title }}</legend>
+            <label for="Quantity-{{ section.id }}">{{ product.price | money }} x</label>
+            <input type="number" id="Quantity-{{ section.id }}" name="quantity" value="1" min="1" pattern="[0-9]*" data-quantity-input>
+            <button type="submit" {% unless product.available %} disabled="disabled"{% endunless %}>
+            {%- if product.available -%}
+              Add to Cart
+            {%- else -%}
+              Sold Out
+            {%- endif -%}
+            </button>
+            {{ form | payment_button }}
+            <p><em>We ship worldwide - UK orders are free of charge.</em></p>
+        </fieldset>
+
+        {% endform %}
+
+        {%- comment -%}
+          Live region for announcing updated price and availability to screen readers
+        {%- endcomment -%}
+        <p class="visually-hidden" data-product-status
+          aria-live="polite"
+          role="status"
+        ></p>
+
+        {%- comment -%}
+          Live region for announcing that the product form has been submitted and the
+          product is in the process being added to the cart
+        {%- endcomment -%}
+        <p class="visually-hidden" data-loader-status
+          aria-live="assertive"
+          role="alert"
+          aria-hidden="true"
+        >{{ 'products.product.loader_label' | t }}</p>
+
+        <div
+          class="product-single__store-availability-container"
+          data-store-availability-container
+          data-product-title="{{ product.title | escape }}"
+          data-has-only-default-variant="{{ product.has_only_default_variant }}"
+          data-base-url="{{ shop.url }}{{ routes.root_url }}"
+        >
+        </div>
+
+        <div is="gallery">
+          {% for media in product.media %}
+            <img
+            class="product-single__thumbnail-image"
+            src="{{ media | img_url: '600x' }}"
+            alt="{{ thumbnailAlt }}
+            ">
+          {% endfor %}
+        </div>
+
+        <div class="product-single__description rte">
+          {{ product.description }}
+        </div>
+
+        {% if section.settings.show_testimonial %}
+          <h2>Love for the Gruffalo playset</h2>
+          <div is="call-out" class="testimonial"> <img src="https://via.placeholder.com/120x120.webp?text=Customer photo" alt="Customer photo" width="120" height="120"> <div> <blockquote> Absolutely love this play set. It was soooo easy to pop out the pieces and build the Gruffalo "nest" as my 5 year old likes to call it. Also love that it's plastic-free!! </blockquote> <cite>Jemma, London</cite> </div> </div>
+        {% endif %}
+
+        {% if section.settings.show_instagram %}
+        <h3>Playpressers on Instagram</h3>
+        <p> Use the hashtag #playpress to feature on our profile and share your fun!</p>
+          <ul is="photo-stream">
+            <li> <img src="https://via.placeholder.com/100x100.webp?text=Instagram photo" alt="Instagram customer" width="200" height="200" loading="lazy"> </li> <li> <img src="https://via.placeholder.com/200x200.webp?text=Instagram photo" alt="Instagram customer" width="200" height="200" loading="lazy"> </li> <li> <img src="https://via.placeholder.com/200x200.webp?text=Instagram photo" alt="Instagram customer" width="200" height="200" loading="lazy"> </li> <li> <img src="https://via.placeholder.com/200x200.webp?text=Instagram photo" alt="Instagram customer" width="200" height="200" loading="lazy"> </li> </ul>
+        {% endif %}
+
+        {% if section.settings.show_share_buttons %}
+          {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product.featured_media %}
+        {% endif %}
+
+</main>
+
+{% if section.settings.show_about %}
+  {% include 'about-brand' %}
+{% endif %}
+
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+  <script type="application/json" id="ModelJson-{{ section.id }}">
+    {{ product.media | where: 'media_type', 'model' | json }}
+  </script>
+{% endunless %}
+
+{% schema %}
+{
+  "name": "Product Content",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show social sharing buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_testimonial",
+      "label": "Show testimonial",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_instagram",
+      "label": "Show instagram feed",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_about",
+      "label": "Show information about Playpress",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

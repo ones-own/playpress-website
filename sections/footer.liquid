@@ -1,0 +1,72 @@
+    <footer role="contentinfo">
+      <div>
+        {% include 'site-nav', linklist: section.settings.footer_linklist %}
+        <dark-mode-toggle
+          id="dark-mode-toggle"
+          label="Dark mode"
+        ></dark-mode-toggle>
+        {{ section.settings.feedback_text }}
+
+        {%- if section.blocks.size > 0 -%}
+        <ul>
+          {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>
+            {%- if block.settings.link_text != blank -%}
+              <a href="{{ block.settings.link_url }}">
+                {{ block.settings.link_text }}
+              </a>
+            {%- endif -%}
+          </li>
+          {%- endfor -%}
+        </ul>
+        {%- endif -%}
+
+        <p>
+          This website is eco-friendly like our playsets. It was crafted that
+          way by
+          <a href="https://www.kindly.eco">Kindly</a>.
+        </p>
+        <p>
+          <small>By using this website, you agree to our use of cookies.</small>
+          <small>Copyright 2020 Playpress</small>
+        </p>
+      </div>
+    </footer>
+
+    {% schema %}
+    {
+    "name": "Footer",
+    "settings": [
+      {
+      "type": "link_list",
+      "id": "footer_linklist",
+      "label": "Menu",
+      "default": "footer"
+      },
+      {
+      "type": "richtext",
+      "id": "feedback_text",
+      "label": "Feedback text",
+      "default": "<p>Tell us more!</p>"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "text",
+        "name": "Social links",
+        "settings": [
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link text"
+          },
+          {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link URL"
+          }
+        ]
+      }
+    ]
+    }
+    {% endschema %}

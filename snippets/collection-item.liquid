@@ -1,0 +1,17 @@
+<article is="promo">
+  <a href="{% if collection.products == empty %}#{% else %}{{ collection.url }}{% endif %}">
+    {% unless collection.image == blank %}
+      <img
+      src="{{ collection.image | img_url: '1024x1024' }}"
+      alt="{{ collection.image | alt }}"
+      />
+    {% else %}
+      {{ "lifestyle-1" | placeholder_svg_tag: "placeholder-svg" }}
+    {% endunless %}
+    {% if collection.title == blank %}
+      <h3>{{ 'homepage.onboarding.collection_title' | t }}</h3>
+    {% else %}
+      <h3>{{ collection.title }}</h3>
+    {% endif %}
+  </a>
+</article>

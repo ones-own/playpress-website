@@ -1,0 +1,109 @@
+  {% if section.settings.title != blank %}
+      <h2>{{ section.settings.title | escape }}</h2>
+  {% endif %}
+
+  <div is="call-outs">
+    {% for block in section.blocks %}
+      <article is="call-out">
+        {% if block.settings.enable_image %}
+          {% if block.settings.image != blank %}
+            {% capture img_id %}TextColumnImage-{{ block.id }}{% endcapture %}
+            {% capture wrapper_id %}TextColumnImageWrapper-{{ block.id }}{% endcapture %}
+                <img id="{{ img_id }}"
+                     class="feature-row__image lazyload"
+                     data-src="{{ img_url }}"
+                     data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                     data-aspectratio="{{ block.settings.image.aspect_ratio }}"
+                     data-sizes="auto"
+                     alt="{{ block.settings.image.alt | escape }}">
+            <noscript>
+              <p>
+                {{ block.settings.image | img_url: '480x480', scale: 2 | img_tag: block.settings.image.alt, 'feature-row__image' }}
+              </p>
+            </noscript>
+          {% else %}
+            <p>
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            </p>
+          {% endif %}
+        {% endif %}
+        {% if block.settings.title != blank %}
+          <h3>{{ block.settings.title | escape }}</h3>
+        {% endif %}
+        {% if block.settings.text != blank %}
+          <p>{{ block.settings.text }}</p>
+        {% endif %}
+        </article>
+    {% endfor %}
+  </div>
+
+  {% if section.blocks.size == 0 %}
+    {% include 'no-blocks' %}
+  {% endif %}
+
+
+{% schema %}
+{
+  "name": "Callouts",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Callout blocks of information"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Text to introduce this section of content"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable_image",
+          "label": "Show image",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Add a title or tagline"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Add descriptve text</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Callouts",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "text_block"
+        },
+        {
+          "type": "text_block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

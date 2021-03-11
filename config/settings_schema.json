@@ -1,0 +1,78 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Debut",
+    "theme_author": "Shopify",
+    "theme_version": "17.7.0",
+    "theme_documentation_url": "https://help.shopify.com/manual/using-themes/themes-by-shopify/debut",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32 x 32px"
+      }
+      ]
+  },
+  {
+    "name": "About Playpress",
+    "settings": [
+      {
+        "id": "heading_primary",
+        "type": "text",
+        "label": "Primary block heading"
+      },
+      {
+        "id": "text_primary",
+        "type": "text",
+        "label": "Primary block text"
+      },
+      {
+        "id": "image_primary",
+        "type": "image_picker",
+        "label": "Primary block image"
+      },
+      {
+        "id": "heading_secondary",
+        "type": "text",
+        "label": "Second block heading"
+      },
+      {
+        "id": "text_secondary",
+        "type": "text",
+        "label": "Second block text"
+      },
+      {
+        "id": "heading_tertiary",
+        "type": "text",
+        "label": "Third block heading"
+      },
+      {
+        "id": "text_tertiary",
+        "type": "text",
+        "label": "Third block text"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_link",
+        "label": "Show call to action link",
+        "default": true
+      },
+      {
+        "id": "link_url",
+        "type": "url",
+        "label": "Link URL"
+      },
+      {
+        "id": "link_text",
+        "type": "text",
+        "label": "Link text",
+        "default": "Learn more about us"
+      }
+    ]
+  }
+]

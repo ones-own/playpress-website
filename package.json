@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "description": "The website of Playpress",
   "scripts": {
-    "build": "parcel build src/*.html",
-    "start": "parcel serve src/*.html",
+    "build": "postcss src/*.css --dir assets",
+    "start": "postcss src/*.css --dir assets --watch",
     "check:css": "stylelint '**/*.css' --ignore-path .gitignore",
     "check:format": "prettier '**/*.{css,html,js,json,md,yml}' --check --ignore-path .gitignore",
     "check:js": "eslint '**/*.js' --ignore-path .gitignore",
@@ -13,25 +13,13 @@
     "test": "npm run check",
     "format": "prettier '**/*.{css,html,js,json,md,yml}' --write --ignore-path .gitignore"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.css": "stylelint --cache --fix",
-    "*.js": "eslint --cache --fix",
-    "*.{css,htmljs,json,md,yml}": "prettier --write --ignore-unknown"
-  },
   "devDependencies": {
     "@signal-noise/stylelint-scales": "^2.0.0",
     "autoprefixer": "^9.8.6",
     "eslint": "^7.16.0",
-    "husky": "^4.3.6",
-    "lint-staged": "^10.5.3",
     "npm-run-all": "^4.1.5",
-    "parcel": "^2.0.0-nightly.579",
     "postcss": "^8.2.1",
+    "postcss-cli": "^8.3.1",
     "postcss-logical": "^4.0.2",
     "postcss-nesting": "^7.0.1",
     "posthtml-extend": "^0.6.0",
@@ -42,5 +30,6 @@
     "stylelint-order": "^4.1.0",
     "stylelint-use-logical": "^1.1.0",
     "stylelint-use-nesting": "^3.0.0"
-  }
+  },
+  "dependencies": {}
 }

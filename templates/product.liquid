@@ -1,0 +1,12 @@
+{% comment %}
+  The contents of the product.liquid template can be found in /sections/product-page.liquid
+{% endcomment %}
+
+{% section 'product-page' %}
+{% section 'product-recommendations' %}
+
+{% if collection %}
+    <a href="{{ collection.url }}" class="btn btn--secondary btn--has-icon-before return-link">
+      {{ 'products.product.back_to_collection' | t: title: collection.title }}
+    </a>
+{% endif %}

@@ -1,0 +1,82 @@
+<section>
+  {% if section.settings.title != blank %}
+      <h2>{{ section.settings.title | escape }}</h2>
+  {% endif %}
+
+  {% case section.settings.grid %}
+    {% when 2 %}
+      {%- assign grid_item_width = 'two' -%}
+    {% when 3 %}
+      {%- assign grid_item_width = 'three' -%}
+    {% when 4 %}
+      {%- assign grid_item_width = 'four' -%}
+    {% when 5 %}
+      {%- assign grid_item_width = 'six' -%}
+  {% endcase %}
+
+  <div is="promos" class="{{ grid_item_width }}">
+      {% for block in section.blocks limit: section.blocks.size %}
+          {%- assign collection = collections[block.settings.collection] -%}
+          {% include 'collection-item', collection: collection %}
+      {% endfor %}
+  </div>
+
+  {% if section.blocks.size == 0 %}
+    {% include 'no-blocks' %}
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Collection Links",
+  "class": "index-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Collection list"
+    },
+    {
+      "type": "range",
+      "id": "grid",
+      "label": "Collections per row",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "featured_collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "label": "Collection",
+          "id": "collection",
+          "type": "collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Links",
+      "category": "Product",
+      "blocks": [
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

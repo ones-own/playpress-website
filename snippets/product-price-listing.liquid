@@ -1,0 +1,269 @@
+{% comment %}
+    Renders a list of product's price (regular, sale, unit)
+    Accompanies product listings (collection page, search result) and not updated dynamically
+    Accepts:
+    - variant: {Object} Variant Liquid object (optional)
+    - product: {Object} Product Liquid object (optional)
+    - show_vendor: {Boolean} Show the product's vendor depending on the section setting (optional)
+
+    Usage:
+    {% include 'product-price-listing', product: product %}
+{% endcomment %}
+{%- liquid
+  if product.title
+    assign compare_at_price = product.compare_at_price
+    assign price = product.price
+    assign available = product.available
+    assign variant = product.variants.first
+  else
+    assign compare_at_price = 1999
+    assign price = 1999
+    assign available = true
+  endif
+
+  assign money_price = price | money
+-%}
+
+<dl class="price price--listing
+  {%- if available == false %} price--sold-out {% endif -%}
+  {%- if compare_at_price > price %} price--on-sale {% endif -%}
+  {%- if product.price_varies == false and product.compare_at_price_varies %} price--compare-price-hidden {% endif -%}
+  {%- if variant.unit_price_measurement %} price--unit-available {% endif -%}"
+>
+  {% if show_vendor and product %}
+    <div class="price__vendor price__vendor--listing">
+      <dt>
+        <span class="visually-hidden">{{ 'products.product.vendor' | t }}</span>
+      </dt>
+      <dd>
+        {{ product.vendor }}
+      </dd>
+    </div>
+  {% endif %}
+
+  {%- comment -%}
+    Explanation of description list:
+      - div.price__regular: Displayed when there are no variants on sale
+      - div.price__sale: Displayed when a variant is a sale
+      - div.price__unit: Displayed when the first variant has a unit price
+      - div.price__availability: Displayed when the product is sold out
+  {%- endcomment -%}
+  <div class="price__regular">
+    <dt>
+      <span class="visually-hidden visually-hidden--inline">{{ 'products.product.regular_price' | t }}</span>
+    </dt>
+    <dd>
+      <span class="price-item price-item--regular">
+        {%- if product.price_varies -%}
+          {{ 'products.product.from_lowest_price_html' | t: lowest_price: money_price }}
+        {%- else -%}
+          {{ money_price }}
+        {%- endif -%}
+      </span>
+    </dd>
+  </div>
+  <div class="price__sale">
+    <dt>
+      <span class="visually-hidden visually-hidden--inline">{{ 'products.product.sale_price' | t }}</span>
+    </dt>
+    <dd>
+      <span class="price-item price-item--sale">
+        {%- if product.price_varies -%}
+          {{ 'products.product.from_lowest_price_html' | t: lowest_price: money_price }}
+        {%- else -%}
+          {{ money_price }}
+        {%- endif -%}
+      </span>
+    </dd>
+    <div class="price__compare">
+      <dt>
+        <span class="visually-hidden visually-hidden--inline">{{ 'products.product.regular_price' | t }}</span>
+      </dt>
+      <dd>
+        <s class="price-item price-item--regular">
+          {{ compare_at_price | money }}
+        </s>
+      </dd>
+    </div>
+  </div>
+  <div class="price__unit">
+    <dt>
+      <span class="visually-hidden visually-hidden--inline">{{ 'products.product.unit_price_label' | t }}</span>
+    </dt>
+    <dd class="price-unit-price">
+      {%- capture unit_price_separator -%}
+        <span aria-hidden="true">/</span><span class="visually-hidden">{{ 'general.accessibility.unit_price_separator' | t }}&nbsp;</span>
+      {%- endcapture -%}
+      {%- capture unit_price_base_unit -%}
+        <span>
+          {%- if variant.unit_price_measurement -%}
+            {%- if variant.unit_price_measurement.reference_value != 1 -%}
+              {{- variant.unit_price_measurement.reference_value -}}
+            {%- endif -%}
+            {{ variant.unit_price_measurement.reference_unit }}
+          {%- endif -%}
+        </span>
+      {%- endcapture -%}
+
+      <span>{{ variant.unit_price | money }}</span>{{- unit_price_separator -}}{{- unit_price_base_unit -}}
+    </dd>
+  </div>
+  <div class="price__badges price__badges--listing">
+    <span class="price__badge price__badge--sale" aria-hidden="true">
+      <span>{{ 'products.product.on_sale' | t }}</span>
+    </span>
+    <span class="price__badge price__badge--sold-out">
+      <span>{{ 'products.product.sold_out' | t }}</span>
+    </span>
+  </div>
+</dl>
+
+{% style %}
+
+article[is=promo] > a > dl {
+    color: hsl(var(--text));
+    margin-top: 0;
+    order: 3;
+}
+
+.visually-hidden {
+  display: none;
+}
+
+.price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 0;
+  margin-bottom: 0; }
+  @media only screen and (max-width: 749px) {
+    .price {
+      font-size: calc(((var(--font-size-base) - 1) / (var(--font-size-base))) * 1em); } }
+  .price dl {
+    margin-top: 0; }
+  .price dd {
+    margin: 0 0.5em 0 0; }
+
+.price--unavailable {
+  visibility: hidden; }
+
+.price--compare-price-hidden .price__compare {
+  display: none; }
+
+.price__pricing-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center; }
+
+.price__regular {
+  display: block; }
+
+.price__regular,
+.price__sale {
+  margin-right: 0.625rem; }
+
+.price--on-sale .price__regular,
+.price--on-sale .price__availability {
+  display: none; }
+
+.price__availability {
+  display: none;
+  color: var(--color-body-text);
+  font-size: 0.9em;
+  font-weight: var(--font-weight-body);
+  text-transform: uppercase;
+  letter-spacing: 1px; }
+
+.price--sold-out .price__availability {
+  display: block; }
+
+.price__sale {
+  display: none; }
+  .price--on-sale .price__sale {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; }
+
+.price__vendor {
+  color: var(--color-body-text);
+  font-size: 0.9em;
+  font-weight: var(--font-weight-body);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 5px 0 10px;
+  width: 100%;
+  -ms-flex-preferred-size: 100%;
+  -webkit-flex-basis: 100%;
+  -moz-flex-basis: 100%;
+  flex-basis: 100%; }
+
+.price__vendor--listing {
+  margin: 0 0 4px; }
+
+.price__unit {
+  -ms-flex-preferred-size: 100%;
+  -webkit-flex-basis: 100%;
+  -moz-flex-basis: 100%;
+  flex-basis: 100%;
+  display: none; }
+  .price--unit-available .price__unit {
+    display: block; }
+
+.price-item {
+  color: var(--color-body-text);
+  font-weight: var(--font-weight-body--bolder); }
+
+.price-item--sale {
+  color: var(--color-sale-text); }
+
+.price--on-sale .price-item--regular {
+  text-decoration: line-through; }
+
+.price-unit-price {
+  color: var(--color-body-text);
+  font-size: 0.8em; }
+
+.price-item__label {
+  display: inline-block;
+  white-space: nowrap;
+  font-weight: var(--font-weight-body--bolder); }
+
+.price__badges {
+  margin-top: 0; }
+
+.price__badge {
+  display: none;
+  align-self: center;
+  text-align: center;
+  font-size: 0.5em;
+  line-height: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-text);
+  border-radius: 2px;
+  padding: 0.2rem 0.5rem; }
+
+.price__badge--sale {
+  color: var(--color-bg);
+  border-color: var(--color-sale-text);
+  background-color: var(--color-sale-text); }
+  .price--on-sale .price__badge--sale {
+    display: flex; }
+  .price--sold-out .price__badge--sale {
+    display: none; }
+
+.price__badge--sold-out {
+  color: var(--color-body-text);
+  border-color: var(--color-body-text); }
+  .price--sold-out .price__badge--sold-out {
+    display: flex; }
+
+.price__badges--listing {
+  margin-top: 0.5rem; }
+  .price__badges--listing .price__badge {
+    font-size: 0.6em;
+    padding: 0.25rem 0.55rem; }
+
+{% endstyle %}

@@ -1,0 +1,11 @@
+<ul>
+  {% for link in linklists[linklist].links %}    
+      <li {% if link.active %} class="on"{% endif %}>
+        <a href="{{ link.url }}"
+          class="{% if link.active %} active{% endif %}"
+          {% if link.current %} aria-current="page"{% endif %}
+        >{{ link.title | escape }}
+        </a>
+      </li>
+  {% endfor %}
+</ul>

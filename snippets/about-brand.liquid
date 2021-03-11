@@ -1,0 +1,33 @@
+<aside is="about">
+  <article class="primary">
+    <h4>{{ settings.heading_primary | escape }}</h4>
+    <p>
+      {{ settings.text_primary | escape }}
+    </p>
+    <img
+      is="in-action"
+      src="{{ settings.image_primary | img_url : 'master' }}"
+      alt="Hands on play"
+      width="800"
+      height="380"
+      loading="lazy"
+    />
+  </article>
+  <div class="secondary">
+    <article>
+      <h5>{{ settings.heading_secondary | escape }}</h5>
+      <p>
+        {{ settings.text_secondary | escape }}
+      </p>
+    </article>
+    <article>
+      <h5>{{ settings.heading_tertiary | escape }}</h5>
+      <p>
+        {{ settings.text_tertiary | escape }}
+      </p>
+    </article>
+  </div>
+  {% if settings.show_link == true %}
+    <a is="signpost" href="about.html">Learn more about Playpress!</a>
+  {% endif %}
+</aside>

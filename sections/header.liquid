@@ -1,0 +1,66 @@
+<header role="banner">
+  <a href="{{ routes.root_url }}" aria-label="Playpress">
+    {% include 'site-logo' %}
+  </a>
+  <nav is="menu">
+    {% include 'site-nav', linklist: section.settings.main_linklist %}
+  </nav>
+  <p>
+    <a href="/cart">
+    <strong>{{ cart.item_count }}</strong> Basket {% if cart.item_count > 0 %}  {{ cart.total_price | money_without_currency }} {% endif %}</a>
+  </p>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "main_linklist",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Announcement bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "message",
+      "label": "Show announcement",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "Home page only",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "message_text",
+      "label": "Text",
+      "default": "Announce something here"
+    },
+    {
+      "type": "url",
+      "id": "message_link",
+      "label": "Link",
+      "info": "Optional"
+    },
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": "Bar",
+      "default": "#3a3a3a"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text",
+      "default": "#ffffff"
+    }
+  ]
+}
+{% endschema %}

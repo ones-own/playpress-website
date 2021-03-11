@@ -1,0 +1,151 @@
+<section is="brand">
+  {% capture image_layout %}
+  {% if section.settings.image != blank %}
+  {% capture img_id %}FeatureRowImage-{{ section.id }}{% endcapture %}
+  {% capture wrapper_id %}FeatureRowImageWrapper-{{ section.id }}{% endcapture %}
+  {% assign img_url = section.settings.image | img_url: '1x1' | replace: '_1x1.',
+  '_{width}x.' %}
+  {% include 'image-style', image: section.settings.image,
+  height: 600, wrapper_id: wrapper_id, img_id: img_id %}
+
+  <img
+    id="{{ img_id }}"
+    class="feature-row__image lazyload"
+    data-src="{{ section.settings.image | img_url: 'master' }}"
+    data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+    data-aspectratio="{{ section.settings.image.aspect_ratio }}"
+    data-sizes="auto"
+    alt="{{ section.settings.image.alt | escape }}"
+    is="in-action"
+  />
+
+  <noscript>
+    {{ section.settings.image | img_url: 'master' | img_tag: section.settings.image.alt, 'feature-row__image' }}
+  </noscript>
+
+  {% else %}
+  {{ "image" | placeholder_svg_tag: "placeholder-svg" }}
+  {% endif %}
+  {% endcapture %}
+
+  {% if section.settings.layout == 'left' %}
+    {{ image_layout }}
+  {% endif %}
+
+  <div>
+
+  {% if section.settings.title != blank %}
+    <h3>{{ section.settings.title | escape }}</h3>
+  {% endif %}
+
+  {% if section.settings.text != blank %}
+    <p>{{ section.settings.text }}</p>
+  {% endif %}
+
+  {% if section.settings.link_text != blank %}
+  <a
+    href="{{ section.settings.link_url }}"
+    aria-label="{{ ariaLabel }}"
+    is="signpost"
+  >
+    {{ section.settings.link_text | escape }}
+  </a>
+  {% endif %}
+
+  </div>
+
+  {% if section.settings.layout == 'right' %}
+    {{ image_layout }}
+  {% endif %}
+
+</section>
+
+{% style %}
+
+@media (min-width: 50rem) {
+section[is=brand] {
+    grid-column-gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+}
+}
+section[is=brand] {
+    display: grid;
+    margin-bottom: 4rem;
+    margin-top: 2rem;
+}
+
+@media (min-width: 50rem) {
+section[is=brand] div {
+    align-self: center;
+    grid-column: 2;
+    grid-row: span 2;
+    padding-left: 2rem;
+}
+}
+
+{% endstyle %}
+
+{% schema %}
+{
+  "name": {
+    "en": "Image with text"
+  },
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": {
+        "en": "Heading"
+      },
+      "default": {
+        "en": "Image with text"
+      }
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Image alignment",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with Text",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}
